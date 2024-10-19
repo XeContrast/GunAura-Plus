@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.ksmcbrigade.ga.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "ga.refmap.json",
+  "mixins": [
+    "LivingEntityMeleeMixin",
+    "LivingEntityShootMixin"
+  ],
+  "client": [
+    "GunItemDataMixin2",
+    "LocalPlayerShootMixin",
+    "RenderSystemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

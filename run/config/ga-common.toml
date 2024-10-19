@@ -1,0 +1,11 @@
+#GunAura Config
+#The ammo free module of the GunAura module,the gun's the counts of ammo will at least 1 when this module enabled.
+#无限火力
+ammoFree = true
+#The forced auto module of the GunAura module,the gun's fire mode will forced to the auto mode when this module enabled.
+#强制自动模式(无论枪械类型,即使是RPG也可以)
+autoMode = true
+#The no cool down module of the GunAura module,the gun's fire cool download will be to 0 when this module enabled.
+#无攻击冷却
+noCooldown = true
+
