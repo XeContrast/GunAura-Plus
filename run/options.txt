@@ -125,6 +125,7 @@ key_key.tacz.shoot.desc:key.mouse.left
 key_key.tacz.interact.desc:key.keyboard.o
 key_key.tacz.fire_select.desc:key.keyboard.g
 key_key.tacz.aim.desc:key.mouse.right
+key_key.tacz.crawl.desc:key.keyboard.c
 key_key.tacz.refit.desc:key.keyboard.z
 key_key.tacz.zoom.desc:key.keyboard.v
 key_key.tacz.melee.desc:key.keyboard.v

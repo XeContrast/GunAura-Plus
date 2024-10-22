@@ -57,9 +57,20 @@ public class GAClient {
 
     public static void faceEntity(Entity player, Entity targetEntity, Connection connection,boolean on) {
 
-        double dX = targetEntity.getX() - player.getX();
-        double dY = targetEntity.getY() - player.getY();
-        double dZ = targetEntity.getZ() - player.getZ();
+        AABB playerBox = player.getBoundingBox();
+        AABB targetBox = targetEntity.getBoundingBox();
+
+        double playerX = player.getX() + playerBox.minX + playerBox.maxX;
+        double playerY = player.getY() + playerBox.minY + playerBox.maxY;
+        double playerZ = player.getZ() + playerBox.minZ + playerBox.maxZ;
+
+        double targetX = targetEntity.getX() + targetBox.minX + targetBox.maxX;
+        double targetY = targetEntity.getY() + targetBox.minY + targetBox.maxY;
+        double targetZ = targetEntity.getZ() + targetBox.minZ + targetBox.maxZ;
+
+        double dX = targetX - playerX;
+        double dY = targetY - playerY;
+        double dZ = targetZ - playerZ;
         double distanceXZ = Math.sqrt(dX * dX + dZ * dZ);
         float yaw = (float) Math.toDegrees(Math.atan2(dZ, dX)) - 90.0F;
         float pitch = (float) -Math.toDegrees(Math.atan2(dY, distanceXZ));
