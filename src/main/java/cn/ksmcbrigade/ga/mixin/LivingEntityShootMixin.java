@@ -16,18 +16,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = LivingEntityShoot.class,remap = false)
 public class LivingEntityShootMixin {
-    @Shadow @Final private LivingEntity shooter;
+    @Shadow
+    @Final
+    private LivingEntity shooter;
 
-    @Inject(method = "getShootCoolDown",at = @At("RETURN"),cancellable = true)
-    public void get(CallbackInfoReturnable<Long> cir){
-        if(!IGun.mainhandHoldGun(this.shooter)) return;
-        if(GunAura.CONFIG.isLoaded() && GunAura.NO_COOL_DOWN.get() && GetClientConfigs.getEnabled(this.shooter)) cir.setReturnValue(0L);
+    @Inject(method = "getShootCoolDown*", at = @At("RETURN"), cancellable = true)
+    public void get(CallbackInfoReturnable<Long> cir) {
+        if (!IGun.mainHandHoldGun(this.shooter)) return;
+        if (GunAura.CONFIG.isLoaded() && GunAura.NO_COOL_DOWN.get() && GetClientConfigs.getEnabled(this.shooter))
+            cir.setReturnValue(0L);
     }
 
-    @Redirect(method = "shoot",at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/item/IGun;getCurrentAmmoCount(Lnet/minecraft/world/item/ItemStack;)I"))
-    public int shoot(IGun instance, ItemStack stack){
+    @Redirect(method = "shoot", at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/item/IGun;getCurrentAmmoCount(Lnet/minecraft/world/item/ItemStack;)I"))
+    public int shoot(IGun instance, ItemStack stack) {
         int ret = instance.getCurrentAmmoCount(stack);
-        if(IGun.mainhandHoldGun(this.shooter) && GunAura.CONFIG.isLoaded() && GunAura.AMMO_FREE.get() && GetClientConfigs.getEnabled(this.shooter)) ret = Math.max(1,ret);
+        if (IGun.mainHandHoldGun(this.shooter) && GunAura.CONFIG.isLoaded() && GunAura.AMMO_FREE.get() && GetClientConfigs.getEnabled(this.shooter))
+            ret = Math.max(1, ret);
         return ret;
     }
 }

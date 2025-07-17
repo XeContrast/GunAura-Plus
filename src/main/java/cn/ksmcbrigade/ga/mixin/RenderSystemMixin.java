@@ -18,10 +18,10 @@ public class RenderSystemMixin {
     @Unique
     private static boolean ga$first = true;
 
-    @Inject(method = "setShaderGlintAlpha(D)V",at = @At("HEAD"))
-    private static void key(double p_268332_, CallbackInfo ci){
-        if(ga$first){
-            Minecraft.getInstance().options.keyMappings = ArrayUtils.add(Minecraft.getInstance().options.keyMappings,GAClient.key);
+    @Inject(method = "setShaderGlintAlpha(D)V", at = @At("HEAD"))
+    private static void key(double p_268332_, CallbackInfo ci) {
+        if (ga$first) {
+            Minecraft.getInstance().options.keyMappings = ArrayUtils.add(Minecraft.getInstance().options.keyMappings, GAClient.key);
             ga$first = false;
         }
     }

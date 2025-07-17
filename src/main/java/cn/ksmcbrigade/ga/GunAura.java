@@ -29,9 +29,11 @@ public class GunAura {
 
     //ex
 
+    public static final ForgeConfigSpec.BooleanValue AURA = builder.comment("IDK").comment("The no Recoil").comment("杀戮光环").define("KillAura",false);
     public static final ForgeConfigSpec.BooleanValue AMMO_FREE = builder.comment("This module need both install this mod.").comment("The ammo free module of the GunAura module,the gun's the counts of ammo will at least 1 when this module enabled.").comment("无限火力").define("ammoFree",false);
     public static final ForgeConfigSpec.BooleanValue AUTO_MODE = clientBuilder.comment("The forced auto module of the GunAura module,the gun's fire mode will forced to the auto mode when this module enabled.").comment("强制自动模式(无论枪械类型,即使是RPG也可以)").define("autoMode",false);
     public static final ForgeConfigSpec.BooleanValue NO_COOL_DOWN = builder.comment("This module need both install this mod.").comment("The no cool down module of the GunAura module,the gun's fire cool download will be to 0 when this module enabled.").comment("无攻击冷却").define("noCooldown",false);
+    public static final ForgeConfigSpec.BooleanValue NO_RECOIL = builder.comment("IDK").comment("The no Recoil").comment("无后坐力").define("NoRecoil",false);
 
     public static final ForgeConfigSpec CONFIG = builder.build();
     public static final ForgeConfigSpec CLIENT_CONFIG = clientBuilder.build();

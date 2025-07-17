@@ -18,7 +18,7 @@ public interface GunItemDataMixin2 {
     default FireMode getFireMode(ItemStack gun) {
         CompoundTag nbt = gun.getOrCreateTag();
         FireMode ret = nbt.contains("GunFireMode", 8) ? FireMode.valueOf(nbt.getString("GunFireMode")) : FireMode.UNKNOWN;
-        if(GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AUTO_MODE.get()) ret = FireMode.AUTO;
+        if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AUTO_MODE.get()) ret = FireMode.AUTO;
         return ret;
     }
 
@@ -30,7 +30,7 @@ public interface GunItemDataMixin2 {
     default int getCurrentAmmoCount(ItemStack gun) {
         CompoundTag nbt = gun.getOrCreateTag();
         int ret = nbt.contains("GunCurrentAmmoCount", 3) ? nbt.getInt("GunCurrentAmmoCount") : 0;
-        if(GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AMMO_FREE.get()) ret = Math.max(1,ret);
+        if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AMMO_FREE.get()) ret = Math.max(1, ret);
         return ret;
     }
 }

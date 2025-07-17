@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ga.refmap.json",
   "mixins": [
+    "CameraSetupEventMixin",
     "LivingEntityMeleeMixin",
     "LivingEntityShootMixin"
   ],

@@ -12,15 +12,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = LocalPlayerShoot.class,remap = false)
 public class LocalPlayerShootMixin {
-    @Inject(method = {"getClientShootCoolDown","getCoolDown","lambda$getClientShootCoolDown$3"},at = @At("RETURN"),cancellable = true)
-    public void get(CallbackInfoReturnable<Long> cir){
-        if(GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.NO_COOL_DOWN.get()) cir.setReturnValue(0L);
+    @Inject(method = {"getClientShootCoolDown", "getCoolDown", "lambda$getClientShootCoolDown$3"}, at = @At("RETURN"), cancellable = true)
+    public void get(CallbackInfoReturnable<Long> cir) {
+        if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.NO_COOL_DOWN.get()) cir.setReturnValue(0L);
     }
 
-    @Redirect(method = {"doShoot","shoot"},at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/item/IGun;getCurrentAmmoCount(Lnet/minecraft/world/item/ItemStack;)I"))
-    public int shoot(IGun instance, ItemStack stack){
+    @Redirect(method = {"doShoot", "shoot"}, at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/item/IGun;getCurrentAmmoCount(Lnet/minecraft/world/item/ItemStack;)I"))
+    public int shoot(IGun instance, ItemStack stack) {
         int ret = instance.getCurrentAmmoCount(stack);
-        if(GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AMMO_FREE.get()) ret = Math.max(1,ret);
+        if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AMMO_FREE.get()) ret = Math.max(1, ret);
         return ret;
     }
 }
