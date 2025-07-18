@@ -96,4 +96,27 @@ public class GAClient {
         connection.send(new ServerboundMovePlayerPacket.Rot(yaw1, pitch1, on));
     }
 
+//        public static void faceEntity(Entity player, Entity targetEntity, Connection connection,boolean on) {
+//
+//            AABB playerBox = player.getBoundingBox();
+//            AABB targetBox = targetEntity.getBoundingBox();
+//
+//            double playerX = player.getX() + playerBox.minX + playerBox.maxX;
+//            double playerY = player.getY() + playerBox.minY + playerBox.maxY;
+//            double playerZ = player.getZ() + playerBox.minZ + playerBox.maxZ;
+//
+//            double targetX = targetEntity.getX() + targetBox.minX + targetBox.maxX;
+//            double targetY = targetEntity.getY() + targetBox.minY + targetBox.maxY;
+//            double targetZ = targetEntity.getZ() + targetBox.minZ + targetBox.maxZ;
+//
+//            double dX = targetX - playerX;
+//            double dY = targetY - playerY;
+//            double dZ = targetZ - playerZ;
+//            double distanceXZ = Math.sqrt(dX * dX + dZ * dZ);
+//            float yaw = (float) Math.toDegrees(Math.atan2(dZ, dX)) - 90.0F;
+//            float pitch = (float) -Math.toDegrees(Math.atan2(dY, distanceXZ));
+//
+//            connection.send(new ServerboundMovePlayerPacket.Rot(yaw, pitch, on));
+//        }
+
 }

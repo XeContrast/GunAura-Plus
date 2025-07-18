@@ -34,6 +34,7 @@ public class GunAura {
     public static final ForgeConfigSpec.BooleanValue AUTO_MODE = clientBuilder.comment("The forced auto module of the GunAura module,the gun's fire mode will forced to the auto mode when this module enabled.").comment("强制自动模式(无论枪械类型,即使是RPG也可以)").define("autoMode",false);
     public static final ForgeConfigSpec.BooleanValue NO_COOL_DOWN = builder.comment("This module need both install this mod.").comment("The no cool down module of the GunAura module,the gun's fire cool download will be to 0 when this module enabled.").comment("无攻击冷却").define("noCooldown",false);
     public static final ForgeConfigSpec.BooleanValue NO_RECOIL = builder.comment("IDK").comment("The no Recoil").comment("无后坐力").define("NoRecoil",false);
+    public static final ForgeConfigSpec.BooleanValue NO_SCATTERING = builder.comment("IDK").comment("The no scattering").comment("无散射").define("NoScattering",false);
 
     public static final ForgeConfigSpec CONFIG = builder.build();
     public static final ForgeConfigSpec CLIENT_CONFIG = clientBuilder.build();
