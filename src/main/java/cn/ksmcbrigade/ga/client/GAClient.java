@@ -1,29 +1,31 @@
 package cn.ksmcbrigade.ga.client;
 
 import cn.ksmcbrigade.ga.GunAura;
+import cn.ksmcbrigade.ga.event.PacketSendEvent;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.network.NetworkHandler;
 import com.tacz.guns.network.message.ClientMessagePlayerShoot;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.telemetry.events.WorldLoadEvent;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.util.profiling.jfr.event.PacketEvent;
+import net.minecraft.util.profiling.jfr.event.PacketSentEvent;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Comparator;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = GunAura.MODID,value = Dist.CLIENT)
@@ -45,16 +47,45 @@ public class GAClient {
         if (GunAura.ENABLED.get() && GunAura.AURA.get() && GunAura.CONFIG.isLoaded()) {
             Player player = event.player;
             if (IGun.mainHandHoldGun(player)) {
-                Vec3 aabb = player.getPosition(0);
-                LivingEntity hurt = player.level().getNearestEntity(LivingEntity.class, TargetingConditions.DEFAULT.range(GunAura.RANGE.get()).selector((p) -> p.getId() != player.getId()), player, aabb.x, aabb.y, aabb.z, new AABB(aabb, aabb).inflate(GunAura.RANGE.get()));
-                if (hurt != null && Minecraft.getInstance().getConnection() != null) {
-                    final boolean last = player.isShiftKeyDown();
-                    faceEntity(player, hurt, Minecraft.getInstance().getConnection().getConnection(), player.onGround());
-                    NetworkHandler.CHANNEL.sendToServer(new ClientMessagePlayerShoot());
-                    player.setShiftKeyDown(last);
+                if (Minecraft.getInstance().getConnection() != null) {
+                    if (findClosestTarget(player) instanceof LivingEntity hurt) {
+                        final boolean last = player.isShiftKeyDown();
+                        faceEntity(player, hurt, Minecraft.getInstance().getConnection().getConnection(), player.onGround());
+                        NetworkHandler.CHANNEL.sendToServer(new ClientMessagePlayerShoot());
+                        player.setShiftKeyDown(last);
+                    }
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void packetSend(PacketSendEvent event) {
+        Packet<?> packet = event.getPacket();
+    }
+
+
+    private static Entity findClosestTarget(Entity player) {
+        Entity closestEntity = null;
+        double closestDistance = Double.MAX_VALUE;
+
+        if (player == null)
+            return null;
+
+        List<Entity> entities = player.level().getEntities(player, player.getBoundingBox().inflate(GunAura.RANGE.get()), entity ->
+                !entity.isRemoved() &&
+                        entity instanceof LivingEntity livingEntity && !livingEntity.isDeadOrDying() && entity != player
+        );
+
+        for (Entity entity : entities) {
+            double distance = player.distanceTo(entity);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestEntity = entity;
+            }
+        }
+
+        return closestEntity;
     }
 
     public static float wrapAngleTo180_float(float value)

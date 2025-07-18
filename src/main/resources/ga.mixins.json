@@ -6,8 +6,12 @@
   "refmap": "ga.refmap.json",
   "mixins": [
     "CameraSetupEventMixin",
+    "ConnectionMixin",
+    "LivingEntityAimMixin",
     "LivingEntityMeleeMixin",
     "LivingEntityShootMixin",
+    "LivingEntitySprintMixin",
+    "LocalPlayerSprintMixin",
     "ModernKineticGunScriptAPIMixin"
   ],
   "client": [

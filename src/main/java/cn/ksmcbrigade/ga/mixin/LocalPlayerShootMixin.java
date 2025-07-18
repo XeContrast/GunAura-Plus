@@ -1,6 +1,7 @@
 package cn.ksmcbrigade.ga.mixin;
 
 import cn.ksmcbrigade.ga.GunAura;
+import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.client.gameplay.LocalPlayerShoot;
 import net.minecraft.world.item.ItemStack;
@@ -22,5 +23,13 @@ public class LocalPlayerShootMixin {
         int ret = instance.getCurrentAmmoCount(stack);
         if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.AMMO_FREE.get()) ret = Math.max(1, ret);
         return ret;
+    }
+
+    @Redirect(method = "shoot", at = @At(value = "INVOKE", target = "Lcom/tacz/guns/api/entity/IGunOperator;getSynSprintTime()F"))
+    public float aFloat(IGunOperator instance) {
+        if (GunAura.CONFIG.isLoaded() && GunAura.ENABLED.get() && GunAura.NO_ADS_DELAY.get())
+            return 0;
+        else
+            return instance.getSynSprintTime();
     }
 }
